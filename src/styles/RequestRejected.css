@@ -1,0 +1,63 @@
+.request-rejected {
+    width: 100%;
+    max-width: 576px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    text-align: center;
+}
+
+.rejected-icon {
+    flex-shrink: 0;
+    color: #fca5a5;
+}
+
+.rejected-title {
+    margin: 0;
+    color: var(--primary, #292929);
+    font-family: Georgia, serif;
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.rejected-description {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.rejected-description strong {
+    color: #292929;
+}
+
+.rejected-note {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.7;
+}
+
+@media (max-width: 480px) {
+    .request-rejected {
+        padding: 24px 18px;
+        gap: 20px;
+    }
+
+    .rejected-title {
+        font-size: 19px;
+    }
+
+    .rejected-description {
+        font-size: 13px;
+    }
+}

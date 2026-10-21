@@ -1,0 +1,215 @@
+/* Main hero section */
+.hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Background image container */
+.hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
+
+/* Background image */
+.hero-background-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.7);
+}
+
+/* Dark overlay */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Main content */
+.hero-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 40px;
+    text-align: center;
+}
+
+/* Subtitle */
+.hero-subtitle {
+    display: block;
+    margin-bottom: 16px;
+    color: #d8c3a5;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}
+
+/* Main heading */
+.hero-title {
+    max-width: 768px;
+    margin: 0 auto 48px;
+    color: #ffffff;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Search form */
+.hero-search-form {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Individual input groups */
+.hero-input-group {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* Input icons */
+.hero-input-icon {
+    flex-shrink: 0;
+    margin-right: 10px;
+    color: #888888;
+}
+
+/* Input fields */
+.hero-input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 4px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #222222;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.hero-input::placeholder {
+    color: #777777;
+    opacity: 1;
+}
+
+/* Date input */
+.hero-date-input {
+    cursor: pointer;
+}
+
+/* Guest selector */
+.hero-guest-select {
+    cursor: pointer;
+}
+
+/* Search button */
+.hero-search-button {
+    flex-shrink: 0;
+    padding: 12px 24px;
+    border: none;
+    background-color: #263c33;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.hero-search-button:hover {
+    background-color: #8b7355;
+}
+
+/* Tablet layout */
+@media (max-width: 900px) {
+    .hero-content {
+        padding: 60px 24px;
+    }
+
+    .hero-title {
+        font-size: 44px;
+        margin-bottom: 36px;
+    }
+
+    .hero-search-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0;
+    }
+
+    .hero-input-group {
+        min-height: 52px;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .hero-search-button {
+        grid-column: 1 / -1;
+        padding: 16px;
+        margin-top: 8px;
+    }
+}
+
+/* Mobile layout */
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 100vh;
+    }
+
+    .hero-content {
+        padding: 48px 16px;
+    }
+
+    .hero-subtitle {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+    }
+
+    .hero-title {
+        font-size: 34px;
+        margin-bottom: 28px;
+    }
+
+    .hero-search-form {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 8px;
+    }
+
+    .hero-input-group {
+        padding: 12px 8px;
+    }
+
+    .hero-search-button {
+        grid-column: auto;
+    }
+}

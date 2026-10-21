@@ -1,0 +1,148 @@
+/* Main section */
+.membership-section {
+    padding: 96px 40px;
+    background-color: #ffffff;
+}
+
+/* Main container */
+.membership-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 48px;
+    align-items: center;
+}
+
+/* Image container */
+.membership-image-container {
+    height: 450px;
+    overflow: hidden;
+}
+
+/* Membership image */
+.membership-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.membership-image:hover {
+    transform: scale(1.05);
+}
+
+/* Content */
+.membership-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 24px;
+}
+
+/* Subtitle */
+.membership-subtitle {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--secondary, #8b7355);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+/* Heading */
+.membership-title {
+    margin-bottom: 24px;
+    color: var(--primary, #333333);
+    font-family: "Playfair Display", serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+/* Main description */
+.membership-description {
+    margin-bottom: 32px;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Benefits container */
+.membership-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Individual benefit */
+.membership-benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* Benefit icons */
+.membership-benefit-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--secondary, #8b7355);
+}
+
+/* Benefit heading */
+.membership-benefit-title {
+    color: var(--primary, #333333);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Benefit description */
+.membership-benefit-description {
+    margin-top: 4px;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* Tablet layout */
+@media (max-width: 1024px) {
+    .membership-section {
+        padding: 80px 32px;
+    }
+
+    .membership-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .membership-image-container {
+        height: 400px;
+    }
+
+    .membership-content {
+        padding-left: 0;
+    }
+
+    .membership-title {
+        font-size: 32px;
+    }
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+    .membership-section {
+        padding: 64px 20px;
+    }
+
+    .membership-image-container {
+        height: 280px;
+    }
+
+    .membership-title {
+        font-size: 28px;
+    }
+
+    .membership-description {
+        font-size: 13px;
+    }
+}
