@@ -1,0 +1,133 @@
+/* Main section */
+.cuisine-section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 96px 40px;
+}
+
+/* Header */
+.cuisine-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+}
+
+/* Subtitle */
+.cuisine-subtitle {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--secondary, #8b7355);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+/* Heading */
+.cuisine-title {
+    color: var(--primary, #333333);
+    font-family: "Playfair Display", serif;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+/* Explore link */
+.cuisine-explore-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--secondary, #8b7355);
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.cuisine-explore-link:hover {
+    color: var(--primary, #333333);
+}
+
+/* Arrow animation */
+.cuisine-arrow {
+    transition: transform 0.2s ease;
+}
+
+.cuisine-explore-link:hover .cuisine-arrow {
+    transform: translateX(4px);
+}
+
+/* Cuisine grid */
+.cuisine-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 24px;
+}
+
+/* Individual cuisine card */
+.cuisine-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 12px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.cuisine-card:hover {
+    border-color: var(--secondary, #8b7355);
+}
+
+/* Cuisine icon */
+.cuisine-icon {
+    margin-bottom: 16px;
+    color: rgba(0, 0, 0, 0.55);
+    transition: color 0.2s ease;
+}
+
+.cuisine-card:hover .cuisine-icon {
+    color: var(--secondary, #8b7355);
+}
+
+/* Cuisine label */
+.cuisine-label {
+    color: var(--primary, #333333);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-align: center;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .cuisine-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .cuisine-section {
+        padding: 64px 20px;
+    }
+
+    .cuisine-header {
+        align-items: flex-start;
+        gap: 16px;
+        flex-direction: column;
+        margin-bottom: 32px;
+    }
+
+    .cuisine-title {
+        font-size: 26px;
+    }
+
+    .cuisine-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .cuisine-card {
+        padding: 24px 10px;
+    }
+}

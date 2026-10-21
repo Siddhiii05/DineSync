@@ -1,0 +1,105 @@
+.restaurant-info {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    text-align: left;
+}
+
+/* Info Ribbon */
+.restaurant-info-ribbon {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    padding: 24px 0;
+    border-top: 1px solid rgba(100, 100, 100, 0.1);
+    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+}
+
+.restaurant-info-item {
+    padding: 0 8px;
+    text-align: center;
+    min-width: 0;
+}
+
+.restaurant-info-bordered {
+    border-right: 1px solid rgba(100, 100, 100, 0.1);
+}
+
+.restaurant-info-icon {
+    display: block;
+    margin: 0 auto 8px;
+    color: var(--secondary, #8b7355);
+}
+
+.restaurant-info-label {
+    display: block;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.restaurant-info-value {
+    display: block;
+    margin-top: 4px;
+    color: var(--primary, #292724);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+/* About Section */
+.restaurant-about {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.restaurant-about-title {
+    margin: 0;
+    color: var(--primary, #292724);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.restaurant-about-description {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.restaurant-address {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding-top: 8px;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.restaurant-address-icon {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--secondary, #8b7355);
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+    .restaurant-info {
+        gap: 32px;
+    }
+
+    .restaurant-info-ribbon {
+        gap: 8px;
+    }
+
+    .restaurant-info-item {
+        padding: 0 4px;
+    }
+
+    .restaurant-info-value {
+        font-size: 11px;
+    }
+}

@@ -1,0 +1,92 @@
+.restaurant-reviews {
+    padding-top: 24px;
+    border-top: 1px solid rgba(100, 100, 100, 0.1);
+    text-align: left;
+}
+
+.restaurant-reviews-title {
+    margin: 0 0 32px;
+    color: var(--primary, #292724);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.restaurant-reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.restaurant-no-reviews {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 12px;
+    font-style: italic;
+}
+
+.restaurant-review-item {
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+}
+
+.restaurant-review-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.restaurant-review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.restaurant-reviewer-name {
+    margin: 0;
+    color: var(--primary, #292724);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.restaurant-review-date {
+    display: inline-block;
+    margin-top: 4px;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 12px;
+}
+
+.restaurant-review-rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    color: var(--secondary, #8b7355);
+}
+
+.restaurant-empty-star {
+    color: var(--outline-variant, #c9c5bd);
+}
+
+.restaurant-review-comment {
+    max-width: 576px;
+    margin: 8px 0 0;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+    .restaurant-reviews-title {
+        font-size: 18px;
+    }
+
+    .restaurant-review-header {
+        gap: 8px;
+    }
+
+    .restaurant-review-date {
+        font-size: 11px;
+    }
+}

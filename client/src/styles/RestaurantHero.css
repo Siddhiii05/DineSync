@@ -1,0 +1,166 @@
+.restaurant-hero {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    overflow: hidden;
+    text-align: left;
+    animation: restaurant-hero-fade-in 0.5s ease-in;
+}
+
+.restaurant-hero-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.restaurant-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.6),
+        transparent 70%
+    );
+}
+
+.restaurant-hero-info {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 48px 0;
+}
+
+.restaurant-hero-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.restaurant-hero-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.restaurant-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.restaurant-cuisine-badge,
+.restaurant-exclusive-badge {
+    padding: 4px 12px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.restaurant-cuisine-badge {
+    color: var(--secondary-container, #f0dfc5);
+    background-color: var(--secondary, #705b45);
+}
+
+.restaurant-exclusive-badge {
+    color: #ffffff;
+    background-color: var(--primary, #292724);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.restaurant-hero-title {
+    margin: 0;
+    color: #ffffff;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.restaurant-hero-metadata {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+}
+
+.restaurant-hero-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--secondary-container, #f0dfc5);
+}
+
+.restaurant-rating-value {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.restaurant-metadata-separator {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes restaurant-hero-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Tablet screens */
+@media (max-width: 768px) {
+    .restaurant-hero {
+        height: 420px;
+    }
+
+    .restaurant-hero-container {
+        padding: 0 24px;
+    }
+
+    .restaurant-hero-info {
+        padding: 32px 0;
+    }
+
+    .restaurant-hero-title {
+        font-size: 38px;
+    }
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+    .restaurant-hero {
+        height: 360px;
+    }
+
+    .restaurant-hero-container {
+        padding: 0 16px;
+    }
+
+    .restaurant-hero-info {
+        padding: 24px 0;
+    }
+
+    .restaurant-hero-title {
+        font-size: 30px;
+    }
+
+    .restaurant-hero-metadata {
+        gap: 8px;
+        font-size: 11px;
+    }
+}
