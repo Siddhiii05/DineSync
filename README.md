@@ -2,7 +2,7 @@
 
 Welcome to the frontend repository for **DineSync** – a modern, premium table booking and reservation platform designed for a seamless dining experience.
 
-This application is built using **React 19**, **Vite**, **TypeScript**, and **Tailwind CSS v4**.
+This application is built using **React 19**, **Vite**, **JavaScript**, **Node.js** and **MongoDB**.
 
 ## ✨ Features
 
@@ -17,11 +17,11 @@ This application is built using **React 19**, **Vite**, **TypeScript**, and **Ta
 ## 🛠️ Tech Stack
 
 - **Framework**: React 19 (Vite)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4
+- **Language**: JavaScript
+- **Styling**: CSS 
 - **Routing**: React Router v7
 - **Icons**: Lucide React
-- **Notifications**: React Hot Toast
+
 
 ## 🚀 Getting Started
 
@@ -34,7 +34,7 @@ Ensure you have **Node.js** (v18 or higher) and **npm** installed.
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/quickdine-frontend.git
-   cd quickdine-frontend
+   cd quickdine-client
    ```
 
 2. Install dependencies:
@@ -54,24 +54,4 @@ Run the development server locally:
 ```bash
 npm run dev
 ```
-Open `http://localhost:5173` in your browser.
-
-### Building for Production
-
-Compile typescript and build the production bundle:
-```bash
-npm run build
-```
-
-Preview the production build locally:
-```bash
-npm run preview
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on how to get started.
-
-## 📄 License
-
-Distributed under the MIT License. See [LICENSE.md](./LICENSE.md) for more details.
+Open `http://localhost:5173` in your browser.# DineSync
