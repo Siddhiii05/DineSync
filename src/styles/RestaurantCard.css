@@ -1,0 +1,312 @@
+/* RESTAURANT CARD */
+
+.restaurant-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+
+    transition:
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+
+.restaurant-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* IMAGE */
+
+.restaurant-image-link {
+    position: relative;
+    display: block;
+    height: 240px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.restaurant-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+
+    transition: transform 0.7s ease;
+}
+
+.restaurant-card:hover .restaurant-image {
+    transform: scale(1.05);
+}
+
+.restaurant-image-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.3),
+        transparent 65%
+    );
+
+    pointer-events: none;
+}
+
+/* ==============================
+   RESTAURANT BADGES
+================================= */
+
+.restaurant-badges {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.restaurant-badge {
+    display: inline-block;
+    padding: 4px 10px;
+
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.exclusive-badge {
+    color: #ffffff;
+    background-color: var(--secondary, #8b7355);
+}
+
+.featured-badge {
+    color: #ffffff;
+    background-color: var(--primary, #263b32);
+}
+
+/* ==============================
+   CONTENT
+================================= */
+
+.restaurant-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.restaurant-main-details {
+    min-width: 0;
+}
+
+/* ==============================
+   METADATA
+================================= */
+
+.restaurant-metadata {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.restaurant-cuisine {
+    color: var(--secondary, #8b7355);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.restaurant-price-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.restaurant-price {
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 10px;
+}
+
+.metadata-separator {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 12px;
+}
+
+.restaurant-rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--secondary, #8b7355);
+}
+
+.rating-value {
+    color: var(--primary, #263b32);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ==============================
+   TITLE
+================================= */
+
+.restaurant-title-link {
+    display: block;
+    margin-bottom: 8px;
+    text-decoration: none;
+}
+
+.restaurant-title {
+    margin: 0;
+
+    overflow: hidden;
+    color: var(--primary, #263b32);
+
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    transition: color 0.2s ease;
+}
+
+.restaurant-card:hover .restaurant-title {
+    color: var(--secondary, #8b7355);
+}
+
+/* ==============================
+   LOCATION
+================================= */
+
+.restaurant-location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    margin: 0 0 16px;
+
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 12px;
+}
+
+.restaurant-location svg {
+    flex-shrink: 0;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+/* ==============================
+   QUICK RESERVATIONS
+================================= */
+
+.quick-reservations {
+    margin-top: auto;
+}
+
+.reservation-divider {
+    height: 1px;
+    margin: 12px 0;
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.reservation-label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.reservation-slots {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.reservation-slot-button,
+.all-slots-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 12px;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+.reservation-slot-button {
+    color: rgba(0, 0, 0, 0.55);
+    background-color: var(--surface, #f7f6f2);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.reservation-slot-button:hover {
+    color: var(--primary, #263b32);
+    border-color: var(--primary, #263b32);
+}
+
+.all-slots-link {
+    color: var(--secondary, #8b7355);
+    background-color: transparent;
+    border: 1px solid rgba(139, 115, 85, 0.2);
+}
+
+.all-slots-link:hover {
+    color: #ffffff;
+    background-color: var(--secondary, #8b7355);
+    border-color: var(--secondary, #8b7355);
+}
+
+/* ==============================
+   RESPONSIVE DESIGN
+================================= */
+
+@media (max-width: 480px) {
+    .restaurant-image-link {
+        height: 210px;
+    }
+
+    .restaurant-content {
+        padding: 16px;
+    }
+
+    .restaurant-metadata {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .restaurant-title {
+        font-size: 17px;
+    }
+}

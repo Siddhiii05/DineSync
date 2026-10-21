@@ -1,0 +1,208 @@
+.owner-dashboard {
+    min-height: 100vh;
+    padding-top: 80px;
+    background-color: var(--surface, #f8f7f4);
+    display: flex;
+    flex-direction: column;
+}
+
+.owner-main {
+    flex: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    box-sizing: border-box;
+}
+
+.owner-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.owner-title {
+    margin: 0;
+    color: var(--primary, #292929);
+    font-family: Georgia, serif;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.owner-subtitle {
+    margin: 6px 0 0;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.owner-signout-button {
+    padding: 10px 16px;
+    border: none;
+    background-color: var(--error-container, #f5dede);
+    color: var(--error, #a12d2d);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.owner-signout-button:hover {
+    background-color: #ebcccc;
+}
+
+.owner-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+}
+
+.owner-sidebar {
+    height: fit-content;
+    padding: 24px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.owner-restaurant-profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.owner-restaurant-avatar {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(41, 41, 41, 0.1);
+    color: var(--primary, #292929);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.owner-restaurant-info {
+    min-width: 0;
+}
+
+.owner-restaurant-name {
+    overflow: hidden;
+    margin: 0;
+    color: var(--primary, #292929);
+    font-family: Georgia, serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.owner-status-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background-color: rgba(139, 115, 85, 0.15);
+    color: var(--secondary, #8b7355);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+}
+
+.owner-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.owner-tab {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 3px;
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-align: left;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.owner-tab:hover:not(.owner-tab-active) {
+    background-color: var(--surface, #f8f7f4);
+}
+
+.owner-tab-active {
+    background-color: var(--primary, #292929);
+    color: #ffffff;
+}
+
+.owner-content {
+    min-width: 0;
+}
+
+@media (min-width: 768px) {
+    .owner-main {
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+
+    .owner-heading {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .owner-title {
+        font-size: 32px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .owner-dashboard-grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 40px;
+    }
+
+    .owner-sidebar {
+        grid-column: span 3;
+    }
+
+    .owner-content {
+        grid-column: span 9;
+    }
+}
+
+@media (max-width: 480px) {
+    .owner-main {
+        padding: 32px 16px;
+    }
+
+    .owner-title {
+        font-size: 26px;
+    }
+
+    .owner-sidebar {
+        padding: 18px;
+    }
+}
