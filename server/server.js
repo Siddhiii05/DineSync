@@ -7,6 +7,7 @@ require("dotenv").config();
 
 const connectDB = require("./config/db");
 const authRouter = require("./routes/authRoutes");
+const restaurantRouter = require("./routes/restaurantRoutes");
 
 const app = express();
 
@@ -25,7 +26,8 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use('/api/auth', authRouter)
+app.use('/api/auth', authRouter);
+app.use('/api/restaurants', restaurantRouter)
 
 // Start server after connecting to MongoDB
 const startServer = async () => {
