@@ -6,6 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
+const authRouter = require("./routes/authRoutes");
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.get("/", (req, res) => {
         message: "Welcome to DineSync API!"
     });
 });
+
+app.use('/api/auth', authRouter)
 
 // Start server after connecting to MongoDB
 const startServer = async () => {
