@@ -1,3 +1,7 @@
+const Booking = require('../models/Booking');
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+
 // Get all restaurants with search and filters
 
 const Restaurant = require("../models/Restaurant");
@@ -119,23 +123,44 @@ const getRestaurantAvailability = async(req, res) => {
             return res.status(400).json({message: "Provide a date"})
         }
 
+        // Validate date
+        const bookingDate = new Date(date);
+
+        if (Number.isNaN(bookingDate.getTime())) {
+            return res.status(400).json({
+                message: 'Please provide a valid date.'
+            });
+        }
+
+        // Find restaurant
         const restaurant = await Restaurant.findById(req.params.id);
         if(!restaurant){
             return res.status(400).json({message: "Restaurant not found"})
         }
 
-        const bookingDate = new Date()
+        if (restaurant.status !== 'approved') {
+            return res.status(400).json({message: 'This restaurant is not accepting reservations.'});
+        }
+
+        // Find confirmed bookings for the selected date
+        // Assumes booking dates are stored at midnight UTC.
+        const startOfDay = new Date(`${date}T00:00:00.000Z`);
+        const endOfDay = new Date(startOfDay);
+        endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
 
         //Get all active booking on this date for the restaurant 
         const bookings = await Booking.find({
             restaurant: restaurant._id,
-            date: bookingDate,
+            date: {
+                $gte: startOfDay,
+                $lt: endOfDay
+            },
             status: "confirmed",
         })
 
-        //Map slots to available capacities
+        // Calculate availability for each time slot
         const availability = restaurant.availableSlots.map((slot) => {
-            const bookedSeats = bookings.filter((b) => b.time === slot).reduce((sum, b) => sum + b.guests, 0);
+            const bookedSeats = bookings.filter((booking) => booking.time === slot).reduce((sum, booking) => sum + booking.guests, 0);
 
             const totalSeats = restaurant.totalSeats || 20;
             const availableSeats = Math.max(0, totalSeats - bookedSeats);
@@ -146,10 +171,12 @@ const getRestaurantAvailability = async(req, res) => {
                 isAvailable: availableSeats > 0
             }
         })
-        res.json(availability)
+        return res.status(200).json(availability);
     }
     catch(error){
         console.error(error)
-        return res.status(500).json({message: 'Server issue'})
+        return res.status(500).json({message: 'Server error while checking availability'})
     }
 }
+
+module.exports = {getRestaurant, getFeaturedRestaurant, getRestaurantBySlug, getRestaurantAvailability};

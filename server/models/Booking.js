@@ -31,7 +31,7 @@ const BookingSchema = new Schema(
             min: 1
         },
 
-        ocassions: {
+        ocassion: {
             type: String,
             trim: true,
         },
@@ -56,10 +56,11 @@ const BookingSchema = new Schema(
 );
 
 // Remove password when converting to JSON
-BookingSchema.pre('save', () => {
+BookingSchema.pre('validate', function(next) {
     if(!this.bookingId){
-        this.bookingId `GR-${crypto.randomBytes(4).toString('hex').toUpperCase()}`
+        this.bookingId = `GR-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
     }
+    next();
 });
 
 const Booking = model('Booking', BookingSchema);

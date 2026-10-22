@@ -1,11 +1,18 @@
 const {Router} = require('express');
-const {getRestaurants, getFeaturedRestaurants, getRestaurantBySlug, getRestaurantAvailability} = require('../controllers/RestaurantController')
+const {getRestaurant, getFeaturedRestaurant, getRestaurantBySlug, getRestaurantAvailability} = require('../controllers/RestaurantController')
 
 const restaurantRouter = Router()
 
-restaurantRouter.get('/', getRestaurants);
-restaurantRouter.get('/featured', getFeaturedRestaurants);
-restaurantRouter.get('/featured/:slug', getRestaurantBySlug);
-restaurantRouter.get('/:id/availability', getRestaurantAvailability);
+// Get all approved restaurants, with optional filters
+restaurantRouter.get('/', getRestaurant);
 
-module.exports = restaurantRouter
+// Get featured restaurants
+restaurantRouter.get('/featured', getFeaturedRestaurant);
+
+// Get restaurant details using its slug
+restaurantRouter.get('/', getRestaurantBySlug);
+
+// Get availability for a restaurant on a selected date
+restaurantRouter.get('//availability', getRestaurantAvailability);
+
+module.exports = restaurantRouter;

@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 
@@ -19,7 +19,7 @@ const registerUser = async (req, res) => {
         }
         
         // Check if user already exists
-        const userExists = await User.findOne({email})
+        const userExists = await User.findOne({email: email.trim().toLowerCase()})
         if(userExists){
             return res.status(400).json({message: "User already exists"})
         }
@@ -28,13 +28,17 @@ const registerUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt)
 
+        // Only allow public registration as a user or restaurant owner.
+        // Admin accounts should be created securely by an administrator.
+        const userRole = role === 'owner' ? 'owner' : 'user';
+
         // Create a user
         const user = await User.create({
             name, 
             email, 
             password: hashedPassword,
             phone,
-            role: role === 'owner' ? 'owner' : 'user',
+            role: userRole
         })
 
         // Generate token
@@ -46,7 +50,7 @@ const registerUser = async (req, res) => {
             email: user.email,
             phone: user.phone,
             role: user.role,
-            token: generateToken(user_id.toString())
+            token
         })
     }
     catch(error){
@@ -67,7 +71,7 @@ const loginUser = async (req, res) => {
         }
         
         // Find User
-        const user = await User.findOne({email})
+        const user = await User.findOne({email: email.trim().toLowerCase()})
         if(!user){
             return res.status(401).json({message: "Invalid email or password"});
         }
@@ -97,6 +101,9 @@ const loginUser = async (req, res) => {
     }
 }  
 
+
+// Get logged-in user's information
+// GET /api/auth/me
 const getUser = (req, res) => {
     try{
         if(!req.user){
