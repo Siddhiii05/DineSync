@@ -10,6 +10,7 @@ const authRouter = require("./routes/authRoutes");
 const restaurantRouter = require("./routes/restaurantRoutes");
 const bookingRouter = require("./routes/bookingRoutes");
 const ownerRouter = require("./routes/ownerRoutes");
+const adminRouter = require("./routes/adminRoutes");
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/restaurants', restaurantRouter)
 app.use('/api/bookings', bookingRouter)
 app.use('/api/owner', ownerRouter)
+app.use('admin'), adminRouter
 
 
 // Start server after connecting to MongoDB
