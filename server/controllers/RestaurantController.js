@@ -77,42 +77,75 @@ const getFeaturedRestaurant = async(req, res) => {
 
 // Get single restaurant by slug
 // GET/api/restaurants/:slug
-const getRestaurantBySlug = async(req, res) => {
-    try{
-        const restaurant = await Restaurant.findOne({slug: req.params.slug})
-        if(!restaurant){
-            return res.status(400).json({message: "Restaurant not found"})
+const getRestaurantBySlug = async (req, res) => {
+    try {
+        // Find the restaurant using the slug from the URL
+        const restaurant = await Restaurant.findOne({
+            slug: req.params.slug,
+        });
+
+        // Return 404 if the restaurant does not exist
+        if (!restaurant) {
+            return res.status(404).json({
+                success: false,
+                message: "Restaurant not found",
+            });
         }
 
-        // If not approved, verify authorization
-        if(restaurant.status !== "approved"){
+        // Only approved restaurants are publicly accessible
+        if (restaurant.status !== "approved") {
             let isAuthorized = false;
-            if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-                try{
-                    // Get token from header
-                    const token = req.headers.authorization.split(' ')[1];
-                    
-                    //Verify token
-                    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            const authHeader = req.headers.authorization;
+
+            if (authHeader && authHeader.startsWith("Bearer ")) {
+                try {
+                    const token = authHeader.split(" ")[1];
+
+                    const decoded = jwt.verify(
+                        token,
+                        process.env.JWT_SECRET
+                    );
 
                     const user = await User.findById(decoded.id);
-                    if(user && (user.role === "admin" || (user.role === "owner" && restaurant.owner.toString() === user.id.toString()))){
-                        isAuthorized = true
+
+                    if (
+                        user &&
+                        (
+                            user.role === "admin" ||
+                            (
+                                user.role === "owner" &&
+                                restaurant.owner &&
+                                restaurant.owner.toString() === user._id.toString()
+                            )
+                        )
+                    ) {
+                        isAuthorized = true;
                     }
+                } catch (error) {
+                    // Invalid or expired tokens are not authorized
                 }
-                catch(err){}
             }
-            if(!isAuthorized){
-                return res.status(400).json({message: "Restaurant not found or pending approval"})
+
+            if (!isAuthorized) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Restaurant not found",
+                });
             }
         }
-        res.json(restaurant)
+
+        // Return the restaurant details
+        return res.status(200).json(restaurant);
+    } catch (error) {
+        console.error("Error fetching restaurant:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server error while fetching restaurant",
+        });
     }
-    catch(error){
-        console.error(error)
-        return res.status(500).json({message: 'Server issue'})
-    }
-}
+};
 
 // Get dynamic seat availability for slots
 // GET/api/restaurants/:id/availability

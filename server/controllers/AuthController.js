@@ -34,8 +34,8 @@ const registerUser = async (req, res) => {
 
         // Create a user
         const user = await User.create({
-            name, 
-            email, 
+            name: name.trim(),
+            email: email.trim().toLowerCase(), 
             password: hashedPassword,
             phone,
             role: userRole
@@ -79,8 +79,10 @@ const loginUser = async (req, res) => {
         // Check if password matches
         const isMatch = await bcrypt.compare(password, user.password);
 
-        if(!isMatch){
-            return res.status(400).json({message: "Invalid email or password"})
+        if (!isMatch) {
+            return res.status(401).json({
+                message: "Invalid email or password"
+            });
         }
 
          // Generate token

@@ -6,9 +6,9 @@ import Hero from "../components/home/Hero.jsx";
 import CuisineBrowse from "../components/home/CuisineBrowse.jsx";
 import TrendingRow from "../components/home/TrendingRow.jsx";
 import MembershipSection from "../components/home/MembershipSection.jsx";
-import NewsletterCTA from "../components/home/NewsletterCTA.jsx";
-import { dummyFeaturedRestaurants } from "../assets/assets.js";
 import "../styles/Home.css";
+import toast from "react-hot-toast";
+import api from "../lib/api"
 
 export default function Home() {
     const [trending, setTrending] = useState([]);
@@ -16,8 +16,16 @@ export default function Home() {
 
     useEffect(() => {
         const fetchTrending = async () => {
-            setTrending(dummyFeaturedRestaurants);
-            setLoading(false);
+            try{
+                const res = await api.get('/restaurants/featured')
+                setTrending(res.data)
+            }
+            catch(error){
+                toast.error(error?.response?.data?.message || error?.message)
+            }
+            finally{
+                setLoading(false)
+            }
         };
         fetchTrending();
     }, []);
@@ -34,7 +42,6 @@ export default function Home() {
                     loading={loading}
                 />
                 <MembershipSection />
-                <NewsletterCTA />
             </main>
             <Footer />
         </div>

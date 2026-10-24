@@ -1,18 +1,23 @@
-const {Router} = require('express');
-const {getRestaurant, getFeaturedRestaurant, getRestaurantBySlug, getRestaurantAvailability} = require('../controllers/RestaurantController')
+const { Router } = require("express");
 
-const restaurantRouter = Router()
+const {getRestaurant, getFeaturedRestaurant, getRestaurantBySlug, getRestaurantAvailability,} = require("../controllers/RestaurantController");
+
+const restaurantRouter = Router();
 
 // Get all approved restaurants, with optional filters
-restaurantRouter.get('/', getRestaurant);
+// GET /api/restaurants
+restaurantRouter.get("/", getRestaurant);
 
-// Get featured restaurants
-restaurantRouter.get('/featured', getFeaturedRestaurant);
-
-// Get restaurant details using its slug
-restaurantRouter.get('/', getRestaurantBySlug);
+// Get featured and exclusive restaurants
+// GET /api/restaurants/featured
+restaurantRouter.get("/featured", getFeaturedRestaurant);
 
 // Get availability for a restaurant on a selected date
-restaurantRouter.get('//availability', getRestaurantAvailability);
+// GET /api/restaurants/:id/availability
+restaurantRouter.get("/:id/availability", getRestaurantAvailability);
+
+// Get restaurant details using its slug
+// GET /api/restaurants/:slug
+restaurantRouter.get("/:slug", getRestaurantBySlug);
 
 module.exports = restaurantRouter;

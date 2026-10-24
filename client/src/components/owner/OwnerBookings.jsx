@@ -1,99 +1,202 @@
 import React from "react";
 import { Calendar, Users, Clock } from "lucide-react";
 import toast from "react-hot-toast";
+import api from "../../lib/api.js";
 import "../../styles/OwnerBookings.css";
 
 export default function OwnerBookings({
-  bookings,
+  bookings = [],
   setBookings,
-  totalSeats,
+  totalSeats = 0,
 }) {
+  // Ensure bookings is an array.
+  const safeBookings = Array.isArray(bookings)
+    ? bookings
+    : Array.isArray(bookings?.bookings)
+      ? bookings.bookings
+      : [];
+
+  // Update the booking status in the backend and frontend.
   const handleUpdateBookingStatus = async (bookingId, newStatus) => {
     try {
-      setBookings((prev) =>
-        prev.map((booking) =>
-          booking._id === bookingId
-            ? { ...booking, status: newStatus }
-            : booking
-        )
+      await api.put(`/owner/bookings/${bookingId}/status`, {
+        status: newStatus,
+      });
+
+      if (typeof setBookings === "function") {
+        setBookings((previousBookings) => {
+          if (Array.isArray(previousBookings)) {
+            return previousBookings.map((booking) =>
+              booking._id === bookingId
+                ? { ...booking, status: newStatus }
+                : booking
+            );
+          }
+
+          if (Array.isArray(previousBookings?.bookings)) {
+            return {
+              ...previousBookings,
+              bookings: previousBookings.bookings.map((booking) =>
+                booking._id === bookingId
+                  ? { ...booking, status: newStatus }
+                  : booking
+              ),
+            };
+          }
+
+          return previousBookings;
+        });
+      }
+
+      toast.success(`Booking ${newStatus} successfully`);
+    } catch (error) {
+      console.error(
+        "Failed to update booking status:",
+        error.response?.data || error
       );
 
-      toast.success(`Booking status updated to ${newStatus}`);
-    } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Update status failed"
+        error?.response?.data?.message ||
+          "Failed to update booking status"
       );
     }
   };
 
+  // CSS class for the selected status.
+  const getStatusClass = (status) => {
+    switch (status?.toLowerCase()) {
+      case "confirmed":
+        return "confirmed";
+
+      case "completed":
+        return "completed";
+
+      case "cancelled":
+        return "cancelled";
+
+      default:
+        return "pending";
+    }
+  };
+
+  // Determine whether the booking has a final status.
+  const isPending = (status) =>
+    !status ||
+    ["pending", "undefined", "null", ""].includes(
+      String(status).toLowerCase()
+    );
+
   return (
     <div className="owner-bookings">
+      {/* Section heading */}
       <div className="owner-bookings-header">
-        <h3>Active Reservations</h3>
+        <h2>Active Reservations</h2>
 
-        <span className="owner-bookings-capacity">
-          Total capacity: {totalSeats} seats
-        </span>
+        <p>
+          Total capacity: <strong>{totalSeats}</strong> seats
+        </p>
       </div>
 
-      {bookings.length === 0 ? (
-        <div className="owner-bookings-empty">
-          <Calendar size={32} className="owner-bookings-empty-icon" />
+      {/* Empty state */}
+      {safeBookings.length === 0 ? (
+        <div className="no-bookings">
+          <Calendar size={40} />
 
-          <p>No booking records found.</p>
+          <h3>No bookings yet</h3>
+
+          <p>
+            Customer reservations for your restaurant will appear here.
+          </p>
         </div>
       ) : (
-        <div className="owner-bookings-list">
-          {bookings.map((booking) => (
-            <div className="owner-booking-card" key={booking._id}>
-              <div className="owner-booking-details">
-                <div className="owner-booking-title">
-                  <h4>{booking.user?.name || "Guest"}</h4>
+        <div className="bookings-list">
+          {safeBookings.map((booking) => (
+            <div className="booking-card" key={booking._id}>
+              {/* Customer information */}
+              <div className="booking-card-header">
+                <div>
+                  <h3>{booking.user?.name || "Guest"}</h3>
 
-                  <span className="owner-booking-id">
-                    {booking.bookingId}
+                  {booking.bookingId && (
+                    <p className="booking-id">
+                      {booking.bookingId}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Booking details */}
+              <div className="booking-details">
+                <div className="booking-detail">
+                  <Users size={14} />
+
+                  <span>
+                    {booking.guests ?? 0}{" "}
+                    {(booking.guests ?? 0) === 1
+                      ? "Guest"
+                      : "Guests"}
                   </span>
                 </div>
 
-                <div className="owner-booking-info">
-                  <span>
-                    <Users size={12} />
-                    {booking.guests} Guests
-                  </span>
+                <div className="booking-detail">
+                  <Clock size={14} />
 
                   <span>
-                    <Clock size={12} />
-                    {booking.time} PM
+                    {booking.time || "Time unavailable"}
                   </span>
+                </div>
+
+                <div className="booking-detail">
+                  <Calendar size={14} />
 
                   <span>
-                    <Calendar size={12} />
                     {booking.date
-                      ? new Date(booking.date).toLocaleDateString()
+                      ? new Date(
+                          booking.date
+                        ).toLocaleDateString("en-US", {
+                          month: "numeric",
+                          day: "numeric",
+                          year: "numeric",
+                        })
                       : "Date unavailable"}
                   </span>
                 </div>
-
-                {booking.specialRequests && (
-                  <p className="owner-booking-requests">
-                    <strong>Requests:</strong>{" "}
-                    {booking.specialRequests}
-                  </p>
-                )}
               </div>
 
-              <div className="owner-booking-actions">
-                <span
-                  className={`owner-booking-status owner-booking-status-${booking.status}`}
-                >
-                  {booking.status}
-                </span>
+              {/* Optional booking information */}
+              {booking.occasion && (
+                <p className="booking-occasion">
+                  <strong>Occasion:</strong> {booking.occasion}
+                </p>
+              )}
 
-                {booking.status === "confirmed" && (
-                  <div className="owner-booking-buttons">
+              {booking.specialRequests && (
+                <p className="booking-requests">
+                  <strong>Special requests:</strong>{" "}
+                  {booking.specialRequests}
+                </p>
+              )}
+
+              {/* Booking status and actions */}
+              <div className="booking-actions">
+                {isPending(booking.status) ? (
+                  <>
                     <button
                       type="button"
-                      className="owner-booking-complete"
+                      className="confirm-booking-btn"
+                      onClick={() =>
+                        handleUpdateBookingStatus(
+                          booking._id,
+                          "confirmed"
+                        )
+                      }
+                    >
+                      CONFIRM
+                    </button>
+
+                    <button
+                      type="button"
+                      className="complete-booking-btn"
                       onClick={() =>
                         handleUpdateBookingStatus(
                           booking._id,
@@ -101,12 +204,12 @@ export default function OwnerBookings({
                         )
                       }
                     >
-                      Complete
+                      COMPLETE
                     </button>
 
                     <button
                       type="button"
-                      className="owner-booking-cancel"
+                      className="cancel-booking-btn"
                       onClick={() =>
                         handleUpdateBookingStatus(
                           booking._id,
@@ -114,14 +217,29 @@ export default function OwnerBookings({
                         )
                       }
                     >
-                      Cancel
+                      CANCEL
                     </button>
-                  </div>
+                  </>
+                ) : (
+                  <span
+                    className={`booking-status ${getStatusClass(
+                      booking.status
+                    )}`}
+                  >
+                    {String(booking.status).toUpperCase()}
+                  </span>
                 )}
               </div>
             </div>
           ))}
         </div>
+      )}
+
+      {/* Restaurant capacity */}
+      {totalSeats > 0 && (
+        <p className="owner-total-seats">
+          Total restaurant seats: {totalSeats}
+        </p>
       )}
     </div>
   );

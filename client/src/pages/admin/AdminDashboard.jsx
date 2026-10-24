@@ -3,6 +3,8 @@ import Navbar from "../../components/Navbar.jsx";
 import Footer from "../../components/Footer.jsx";
 import Loader from "../../components/Loader.jsx";
 import { useAppContext } from "../../context/AppContext.jsx";
+import api from "../../lib/api.js";
+
 import {
   ShieldCheckIcon,
   CheckCircleIcon,
@@ -11,12 +13,9 @@ import {
 
 import AdminApprovals from "../../components/admin/AdminApprovals.jsx";
 import AdminStats from "../../components/admin/AdminStats.jsx";
-import {
-  dummyAdminStats,
-  dummyRestaurant,
-} from "../../assets/assets.js";
 
 import "../../styles/AdminDashboard.css";
+import toast from "react-hot-toast";
 
 export default function AdminDashboard() {
   const { logout } = useAppContext();
@@ -27,31 +26,54 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("approvals");
   const [btnLoading, setBtnLoading] = useState(null);
 
-  // Load admin dashboard data
+  // Fetch restaurants and dashboard statistics
   const fetchAdminData = async () => {
-    setRestaurants(dummyRestaurant);
-    setStats(dummyAdminStats);
-    setLoading(false);
+    try {
+      const rRes = await api.get("/admin/restaurants");
+      setRestaurants(
+        Array.isArray(rRes.data) ? rRes.data : rRes.data.restaurants || []
+      );
+
+      const sRes = await api.get("/admin/stats");
+      setStats(sRes.data);
+    } catch (error) {
+      console.error("Failed to retrieve administrator data:", error);
+
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to retrieve administrator data"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Handle restaurant approval or rejection
+  // Approve or reject a restaurant
   const handleApproveStatus = async (restaurantId, status) => {
-    setBtnLoading(restaurantId);
-
     try {
-      console.log(restaurantId, status);
+      setBtnLoading(restaurantId);
+      await api.put(`/admin/restaurants/${restaurantId}/approve`, {
+        status,
+      });
 
-      // Update the restaurant status in the frontend.
-      // A backend API call will be needed to save this in MongoDB.
-      setRestaurants((previousRestaurants) =>
-        previousRestaurants.map((restaurant) =>
-          restaurant._id === restaurantId
-            ? { ...restaurant, status }
-            : restaurant
-        )
+      toast.success(`Restaurant has been marked as ${status}`);
+
+      // Refresh restaurant list
+      const rRes = await api.get("/admin/restaurants");
+      setRestaurants(
+        Array.isArray(rRes.data) ? rRes.data : rRes.data.restaurants || []
       );
+
+      // Refresh statistics
+      const sRes = await api.get("/admin/stats");
+      setStats(sRes.data);
     } catch (error) {
       console.error("Failed to update restaurant status:", error);
+
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update restaurant status"
+      );
     } finally {
       setBtnLoading(null);
     }
@@ -61,11 +83,12 @@ export default function AdminDashboard() {
     fetchAdminData();
   }, []);
 
+  // Show loader while data is loading
   if (loading) {
     return <Loader text="Loading Master Admin Console..." />;
   }
 
-  // Separate pending restaurants from the remaining restaurants
+  // Separate pending and processed restaurants
   const pendingRestaurants = restaurants.filter(
     (restaurant) => restaurant.status === "pending"
   );
@@ -91,8 +114,8 @@ export default function AdminDashboard() {
             </h1>
 
             <p className="admin-dashboard-description">
-              Approve new restaurant partners, audit active slot
-              listings, and review platform booking metrics.
+              Approve new restaurant partners, audit active slot listings,
+              and review platform booking metrics.
             </p>
           </div>
 
@@ -132,6 +155,7 @@ export default function AdminDashboard() {
                 }`}
               >
                 <BarChart3Icon size={14} />
+
                 <span>Analytics &amp; Stats</span>
               </button>
             </nav>

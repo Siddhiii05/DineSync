@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import {bottomLinks, footerSections, socialLinks} from "../assets/assets.js";
+import { assets } from "../assets/assets.js";
 import "../styles/Footer.css";
 
 export default function Footer() {
@@ -13,7 +14,7 @@ export default function Footer() {
                 <div className="footer-brand">
                     <Link to="/" className="footer-logo-link">
                         <img
-                            src="/logo.png"
+                            src={assets.logo}
                             alt="DineSync Logo"
                             className="footer-logo"
                         />

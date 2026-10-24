@@ -1,27 +1,15 @@
 import { useState, useEffect } from "react";
-import {
-    useParams,
-    useSearchParams,
-    useNavigate,
-    Link,
-} from "react-router-dom";
-
+import {useParams,useSearchParams,useNavigate,Link} from "react-router-dom";
+import api from "../lib/api.js";
 import { useAppContext } from "../context/AppContext.jsx";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import { ChevronRight } from "lucide-react";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader.jsx";
-
 import BookingSuccess from "../components/booking/BookingSuccess.jsx";
 import BookingSummary from "../components/booking/BookingSummary.jsx";
 import BookingForm from "../components/booking/BookingForm.jsx";
-
-import {
-    dummyBookingData,
-    dummyRestaurant,
-} from "../assets/assets.js";
-
 import "../styles/BookingConfirmation.css";
 
 export default function BookingConfirmation() {
@@ -63,14 +51,18 @@ export default function BookingConfirmation() {
     // Fetch restaurant details
     useEffect(() => {
         const fetchRestaurant = async () => {
-            setLoading(true);
-
-            const foundRestaurant = dummyRestaurant.find(
-                (restaurant) => restaurant.slug === slug
-            );
-
-            setRestaurant(foundRestaurant || null);
-            setLoading(false);
+            try{
+                setLoading(true);
+                const res = await api.get(`/restaurants/${slug}`);
+                setRestaurant(res.data)
+            }
+            catch(error){
+                toast.error(error?.response?.data?.message || error?.message);
+                navigate('/')
+            }
+            finally{
+                setLoading(false);
+            }
         };
 
         if (slug) {
@@ -85,17 +77,15 @@ export default function BookingConfirmation() {
         e.preventDefault();
 
         if (!slot || !date) {
-            toast.error(
-                "Reservation details are missing. Return to restaurant details."
-            );
+            toast.error( "Reservation details are missing. Return to restaurant details.");
             return;
         }
 
         try {
             setConfirming(true);
 
-            // Temporary demo confirmation using dummy data
-            setConfirmedBooking(dummyBookingData);
+            const res = await api.post(`/bookings`, {restaurantId: restaurant._id, date, time: slot, guests, occasion, specialRequests});
+            setConfirmedBooking(res.data)
 
             toast.success("Reservation confirmed!");
         } catch (error) {

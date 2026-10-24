@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAppContext } from "../../context/AppContext.jsx";
 import Navbar from "../../components/Navbar.jsx";
 import Footer from "../../components/Footer.jsx";
@@ -10,13 +10,9 @@ import PendingApproval from "../../components/owner/PendingApproval.jsx";
 import RequestRejected from "../../components/owner/RequestRejected.jsx";
 import OwnerBookings from "../../components/owner/OwnerBookings.jsx";
 import OwnerProfileDetails from "../../components/owner/OwnerProfileDetails.jsx";
-
-import {
-    dummyMyBookingsData,
-    dummyRestaurant,
-} from "../../assets/assets.js";
-
+import api from "../../lib/api.js";
 import "../../styles/OwnerDashboard.css";
+import toast from "react-hot-toast";
 
 export default function OwnerDashboard() {
     const { logout } = useAppContext();
@@ -26,19 +22,50 @@ export default function OwnerDashboard() {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("bookings");
 
-    const fetchOwnerData = async () => {
-        setRestaurant(dummyRestaurant[0]);
-        setBookings(dummyMyBookingsData);
-        setLoading(false);
-    };
+    const fetchOwnerData = useCallback(async () => {
+        setLoading(true);
+
+        try {
+            // Fetch the logged-in owner's restaurant.
+            const restaurantRes = await api.get("/owner/restaurant");
+            const restaurantData = restaurantRes.data;
+
+            setRestaurant(restaurantData);
+
+            // Reset bookings before loading fresh data.
+            setBookings([]);
+
+            // Fetch bookings only when the restaurant is approved.
+            if (restaurantData?.status === "approved") {
+                const bookingRes = await api.get("/owner/bookings");
+
+                // The backend returns an array directly.
+                const bookingData = Array.isArray(bookingRes.data)
+                    ? bookingRes.data
+                    : Array.isArray(bookingRes.data?.bookings)
+                      ? bookingRes.data.bookings
+                      : [];
+
+                setBookings(bookingData);
+            }
+        } catch (error) {
+            console.error("Failed to load owner dashboard:", error);
+
+            setBookings([]);
+
+            toast.error(
+                error?.response?.data?.message ||
+                "Failed to load dashboard data"
+            );
+        } finally {
+            // Always stop loading, regardless of success or failure.
+            setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
-        const loadData = async () => {
-            await fetchOwnerData();
-        };
-
-        loadData();
-    }, []);
+        fetchOwnerData();
+    }, [fetchOwnerData]);
 
     if (loading) {
         return <Loader text="Loading Owner Dashboard..." />;
@@ -90,7 +117,7 @@ export default function OwnerDashboard() {
                         <aside className="owner-sidebar">
                             <div className="owner-restaurant-profile">
                                 <span className="owner-restaurant-avatar">
-                                    {restaurant.name.charAt(0)}
+                                    {restaurant.name?.charAt(0) || "R"}
                                 </span>
 
                                 <div className="owner-restaurant-info">
@@ -106,7 +133,6 @@ export default function OwnerDashboard() {
 
                             {/* Dashboard tabs */}
                             <nav className="owner-tabs">
-
                                 <button
                                     onClick={() =>
                                         setActiveTab("bookings")
@@ -138,14 +164,11 @@ export default function OwnerDashboard() {
 
                                     <span>Profile Details</span>
                                 </button>
-
                             </nav>
                         </aside>
 
                         {/* Main content */}
                         <div className="owner-content">
-
-                            {/* Bookings tab */}
                             {activeTab === "bookings" && (
                                 <OwnerBookings
                                     bookings={bookings}
@@ -154,14 +177,12 @@ export default function OwnerDashboard() {
                                 />
                             )}
 
-                            {/* Profile details tab */}
                             {activeTab === "details" && (
                                 <OwnerProfileDetails
                                     restaurant={restaurant}
                                     setRestaurant={setRestaurant}
                                 />
                             )}
-
                         </div>
                     </div>
                 )}

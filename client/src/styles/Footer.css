@@ -6,7 +6,7 @@
     width: 100%;
     padding-top: 80px;
     padding-bottom: 48px;
-    background-color: var(--surface-container-low, #f5f4f0);
+    background-color: var(--surface-container-low, #e9c4a1);
     border-top: 1px solid rgba(0, 0, 0, 0.12);
     box-sizing: border-box;
 }
@@ -159,7 +159,7 @@
 }
 
 .footer-bottom-link:hover {
-    color: var(--secondary, #8b7355);
+    color: var(--secondary, #bdb7b0);
 }
 
 /* ==============================

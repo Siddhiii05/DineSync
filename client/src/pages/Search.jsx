@@ -4,19 +4,10 @@ import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import RestaurantCard from "../components/RestaurantCard.jsx";
 import AuthModal from "../components/AuthModal.jsx";
-
-import {
-    SlidersHorizontal,
-    Search as SearchIcon,
-    X,
-    Check,
-    MapPin,
-    SearchXIcon,
-} from "lucide-react";
-
-import { dummyRestaurant } from "../assets/assets.js";
-
+import {SlidersHorizontal, Search as SearchIcon, X, Check, MapPin, SearchXIcon} from "lucide-react";
 import "../styles/Search.css";
+import toast from "react-hot-toast";
+import api from "../lib/api"
 
 export default function Search() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -47,10 +38,18 @@ export default function Search() {
     // Load the sample restaurant data
     useEffect(() => {
         const fetchRestaurants = async () => {
-            setRestaurants(dummyRestaurant);
-            setLoading(false);
+            try{
+                setLoading(true);
+                const res = await api.get(`/restaurants?${searchParams.toString()}`)
+                setRestaurants(res.data)
+            }
+            catch(error){
+                toast.error(error?.response?.data?.message || error?.message)
+            }
+            finally{
+                setLoading(false)
+            }
         };
-
         fetchRestaurants();
     }, [searchParams]);
 
@@ -70,7 +69,6 @@ export default function Search() {
         } else {
             nextParams.delete("location");
         }
-
         setSearchParams(nextParams);
     };
 
@@ -82,15 +80,12 @@ export default function Search() {
         if (current.includes(cuisine)) {
             const updated = current.filter((c) => c !== cuisine);
             nextParams.delete("cuisine");
-
-            
             updated.forEach((c) => {
                 nextParams.append("cuisine", c);
             });
         } else {
             nextParams.append("cuisine", cuisine);
         }
-
         setSearchParams(nextParams);
     };
 
@@ -101,7 +96,6 @@ export default function Search() {
 
         if (current.includes(price)) {
             const updated = current.filter((p) => p !== price);
-
             nextParams.delete("priceRange");
 
             updated.forEach((p) => {
@@ -110,7 +104,6 @@ export default function Search() {
         } else {
             nextParams.append("priceRange", price);
         }
-
         setSearchParams(nextParams);
     };
 
@@ -344,9 +337,7 @@ export default function Search() {
                             <h3>No Restaurants Found</h3>
 
                             <p>
-                                We couldn't find any premium establishments
-                                matching your search query. Try widening your
-                                filters.
+                                We couldn't find any premium establishments matching your search query. Try widening your filters.
                             </p>
 
                             <button

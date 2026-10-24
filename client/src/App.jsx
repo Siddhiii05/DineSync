@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home.jsx";
 import Search from "./pages/Search.jsx";
 import RestaurantDetail from "./pages/RestaurantDetail.jsx";
@@ -11,6 +12,18 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 export default function App() {
     return (
         <>
+            <Toaster
+                position="bottom-right"
+                toastOptions={{
+                    duration: 3000,
+                    style: {
+                        background: "#333",
+                        color: "#fff",
+                        fontFamily: "Manrope, sans-serif",
+                    },
+                }}
+            />
+        
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/search" element={<Search />} />
