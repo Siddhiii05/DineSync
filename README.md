@@ -93,7 +93,7 @@ Replace the placeholder values with your actual credentials.
 Start the backend using the script defined in `server/package.json`. For example, if a `dev` script is configured:
 
 ```bash
-npm run dev
+npm run start
 ```
 
 ### 3. Set Up the Frontend
